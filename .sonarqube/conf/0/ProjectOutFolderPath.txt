@@ -1,0 +1,1 @@
+D:\projetos\aspnetcoremvc\.sonarqube\out\0
