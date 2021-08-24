@@ -37,6 +37,18 @@ namespace AspNetCoreMVC.Controllers
             return View();
         }
 
+        [Authorize(Policy = "CanStopApplication")]
+        public IActionResult StopApplication()
+        {
+            return View("ManageApplication");
+        }
+
+        [Authorize(Policy = "CanStart")]
+        public IActionResult StartApplication()
+        {
+            return View("ManageApplication");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

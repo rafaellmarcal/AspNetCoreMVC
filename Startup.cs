@@ -1,4 +1,6 @@
 using AspNetCoreMVC.Areas.Identity.Data;
+using AspNetCoreMVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +29,16 @@ namespace AspNetCoreMVC
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<AspNetCoreMVCContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanStopApplication", policy => policy.RequireClaim("CanStopApplication"));
+
+                options.AddPolicy("CanStart", policy => policy.Requirements.Add(new RequiredPermission("CanStart")));
+                options.AddPolicy("CanRestart", policy => policy.Requirements.Add(new RequiredPermission("CanRestart")));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, RequiredPermissionHandler>();
 
             services.AddControllersWithViews();
         }
