@@ -24,6 +24,7 @@ namespace AspNetCoreMVC
             services.AddDbContext<AspNetCoreMVCContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AspNetCoreMVCContextConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<AspNetCoreMVCContext>();
 
