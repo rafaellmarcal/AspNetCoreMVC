@@ -1,4 +1,5 @@
-﻿using AspNetCoreMVC.Models;
+﻿using AspNetCoreMVC.Extensions;
+using AspNetCoreMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -45,6 +46,12 @@ namespace AspNetCoreMVC.Controllers
 
         [Authorize(Policy = "CanStart")]
         public IActionResult StartApplication()
+        {
+            return View("ManageApplication");
+        }
+
+        [ClaimsAuthorization("Home", "GET")]
+        public IActionResult RestartApplication()
         {
             return View("ManageApplication");
         }
