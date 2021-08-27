@@ -1,4 +1,5 @@
 using AspNetCoreMVC.Areas.Identity.Data;
+using AspNetCoreMVC.Configurations;
 using AspNetCoreMVC.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -20,25 +21,13 @@ namespace AspNetCoreMVC
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AspNetCoreMVCContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AspNetCoreMVCContextConnection")));
+            services.AddIdentityConfiguration(Configuration);
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddDefaultUI()
-                .AddEntityFrameworkStores<AspNetCoreMVCContext>();
+            services.AddAuthorizationConfiguration();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("CanStopApplication", policy => policy.RequireClaim("CanStopApplication"));
-
-                options.AddPolicy("CanStart", policy => policy.Requirements.Add(new RequiredPermission("CanStart")));
-                options.AddPolicy("CanRestart", policy => policy.Requirements.Add(new RequiredPermission("CanRestart")));
-            });
-
-            services.AddSingleton<IAuthorizationHandler, RequiredPermissionHandler>();
+            services.ResolveDependencies();
 
             services.AddControllersWithViews();
         }
