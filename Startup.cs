@@ -19,6 +19,9 @@ namespace AspNetCoreMVC
                 .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
 
+            if (environment.IsProduction())
+                builder.AddUserSecrets<Startup>();
+
             Configuration = builder.Build();
         }
 
