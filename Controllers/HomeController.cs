@@ -25,6 +25,7 @@ namespace AspNetCoreMVC.Controllers
 
         public IActionResult Privacy()
         {
+            throw new System.Exception("Exception!");
             return View();
         }
 
@@ -52,10 +53,33 @@ namespace AspNetCoreMVC.Controllers
             return View("ManageApplication");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var error = new ErrorViewModel();
+
+            if (id == 500)
+            {
+                error.ErrorCode = id;
+                error.Titulo = "Internal Server Error";
+                error.Mensagem = "Casa caiu no servidor";
+            }
+            else if (id == 404)
+            {
+                error.ErrorCode = id;
+                error.Titulo = "Not Found";
+                error.Mensagem = "Sumiuu";
+            }
+            else if (id == 403)
+            {
+                error.ErrorCode = id;
+                error.Titulo = "Forbidden";
+                error.Mensagem = "Ai não champz";
+            }
+            else
+                return StatusCode(404);
+
+            return View("Error", error);
         }
     }
 }
