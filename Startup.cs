@@ -33,6 +33,8 @@ namespace AspNetCoreMVC
 
             services.ResolveDependencies();
 
+            services.AddLoggerConfiguration();
+
             services.AddControllersWithViews();
         }
 
@@ -55,6 +57,8 @@ namespace AspNetCoreMVC
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseLoggerConfiguration(Configuration);
 
             app.UseEndpoints(endpoints =>
             {
