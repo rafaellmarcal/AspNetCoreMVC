@@ -1,4 +1,5 @@
 using AspNetCoreMVC.Configurations;
+using AspNetCoreMVC.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +36,10 @@ namespace AspNetCoreMVC
 
             services.AddLoggerConfiguration();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(AuditFilter));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

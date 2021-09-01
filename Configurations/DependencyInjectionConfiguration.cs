@@ -14,6 +14,7 @@ namespace AspNetCoreMVC.Configurations
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ILogger>(context => Logger.Factory.Get());
+            services.AddScoped<AuditFilter>();
 
             return services;
         }
